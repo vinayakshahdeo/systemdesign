@@ -27,12 +27,17 @@ class SinglyLinkedList {
 			return 'No elements';
 		}
 		let printStr = '';
+		let i = 0;
 		while (cur) {
+			i++;
 			printStr += cur.value;
 			if (cur.next) {
 				printStr += ' =>  ';
 			}
 			cur = cur.next;
+			if (i >= 100) {
+				return printStr;
+			}
 		}
 		return printStr;
 	}
@@ -177,6 +182,7 @@ class SinglyLinkedList {
 		let prev = null;
 		let next = cur;
 		let pos = 0;
+		console.log(this.print(), { size: this.size });
 		while (next) {
 			prev = cur;
 			cur = next;
@@ -208,6 +214,52 @@ class SinglyLinkedList {
 			pos--;
 		}
 		console.log(`${cur.value} is middle of sll`);
+	}
+
+	createCircularLinkedList(pos) {
+		if (this.checkEmptyList() || this.size < pos || pos < 0) {
+			return;
+		}
+		let cur = this.head;
+		let i = 0;
+		let temp = null;
+		while (cur.next != null) {
+			if (pos === i) temp = cur;
+			cur = cur.next;
+			i++;
+		}
+		if (temp) {
+			cur.next = temp;
+			console.log(
+				`create circular list from ${cur.value} to ${temp.value}`
+			);
+			console.log(
+				'****printing would result in 100 node iterations to print****'
+			);
+		} else {
+			console.log(
+				`failed to create circular list from ${i + 1} to ${pos}}`
+			);
+		}
+	}
+
+	findIfCircularLinkedListExists() {
+		//tortoise hare algorithm
+		if (this.checkEmptyList()) {
+			return;
+		}
+		let slow = this.head;
+		let fast = this.head.next.next; //setting two nodes ahead
+		let i = 0;
+		while (slow !== fast) {
+			if (!(fast.next || fast.next.next)) {
+				return false;
+			}
+			slow = slow.next;
+			fast = fast.next.next;
+			i++;
+		}
+		return i;
 	}
 }
 
@@ -251,6 +303,7 @@ function mergeSortedKList(list1, list2) {
 		return list2Head;
 	}
 	let result = new SinglyLinkedList();
+	let i = 0;
 	while (list1Head && list2Head) {
 		if (list1Head.value <= list2Head.value) {
 			result.insertAtTail(list1Head.value);
@@ -259,16 +312,19 @@ function mergeSortedKList(list1, list2) {
 			result.insertAtTail(list2Head.value);
 			list2Head = list2Head.next;
 		}
+		i++;
 	}
 	while (list1Head) {
 		result.insertAtTail(list1Head.value);
 		list1Head = list1Head.next;
+		i++;
 	}
 	while (list2Head) {
 		result.insertAtTail(list2Head.value);
 		list2Head = list2Head.next;
+		i++;
 	}
-	result.size = list1.getSize() + list2.getSize();
+	result.size = i;
 	return result;
 }
 
@@ -281,6 +337,14 @@ console.log(sll2.print());
 sll2.removeFromPos(2);
 console.log(sll2.print());
 sll2.middleOfLinkedList();
+console.log({ size: sll2.size });
+sll2.createCircularLinkedList(0);
+console.log(sll2.print());
+console.log(
+	sll2.findIfCircularLinkedListExists()
+		? `loop found at ${sll2.findIfCircularLinkedListExists()}`
+		: 'not found any loop'
+);
 // let sll3 = new SinglyLinkedList();
 // sll3.insertAtHead(1);
 // sll3.removeFromHead();
