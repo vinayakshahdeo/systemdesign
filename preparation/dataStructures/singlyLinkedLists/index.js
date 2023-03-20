@@ -259,7 +259,7 @@ class SinglyLinkedList {
 			fast = fast.next.next;
 			i++;
 		}
-		return i;
+		return true;
 	}
 }
 
@@ -341,9 +341,7 @@ console.log({ size: sll2.size });
 sll2.createCircularLinkedList(0);
 console.log(sll2.print());
 console.log(
-	sll2.findIfCircularLinkedListExists()
-		? `loop found at ${sll2.findIfCircularLinkedListExists()}`
-		: 'not found any loop'
+	sll2.findIfCircularLinkedListExists() ? `loop found` : 'not found any loop'
 );
 // let sll3 = new SinglyLinkedList();
 // sll3.insertAtHead(1);
