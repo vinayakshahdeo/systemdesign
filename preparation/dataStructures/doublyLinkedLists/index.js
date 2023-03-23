@@ -77,7 +77,7 @@ class Node {
 		this.next = next;
 	}
 }
-dsfsndfnsdkjfsdjfn;
+
 let dll = new LinkedList();
 // dll.findNode(1000);
 dll.insertAtHead(3);
